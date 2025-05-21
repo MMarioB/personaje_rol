@@ -1,278 +1,345 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thomas Anotias: Corresponsal de Arkham</title>
+    <!-- Incluir Tailwind CSS (CDN - ideal para empezar rápido) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Incluir Google Fonts para un estilo clásico y dramático -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
+        /* CSS Personalizado para la 'Vistosidad' y Atmosfera Cthulhu */
         body {
-            background-color: white;
-            /* Ensure the iframe has a white background */
-        }
-
-
-        /* Aquí puedes añadir tus clases CSS personalizadas si Tailwind no es suficiente */
-        body {
-            /* Estilo de fondo general, quizás una textura sutil o un gradiente */
-            background-color: #1a1a1a;
-            /* Oscuro para el ambiente de Cthulhu */
-            color: #e0e0e0;
-            /* Texto claro */
-            font-family: 'Georgia', serif;
-            /* Fuente un poco clásica */
+            /* Fuente de cuerpo basada en Old Standard TT para un toque vintage y formal */
+            font-family: 'Old Standard TT', serif;
+            background-color: #121212; /* Un negro muy oscuro para el ambiente lúgubre */
+            color: #d1d1d1; /* Gris claro para el texto, menos duro que el blanco puro */
+            line-height: 1.7; /* Mayor interlineado para legibilidad en fondos oscuros */
+            /* Patrón de fondo sutil inspirado en textura de papel/pergamino antiguo */
             background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><pattern id="pattern-zigzag" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 0 10 L 10 0 L 20 10 L 10 20 Z" fill="none" stroke="%23333333" stroke-width="0.5"/></pattern><rect width="100%" height="100%" fill="url(%23pattern-zigzag)"/></svg>');
-            /* Patrón de fondo sutil */
+            background-attachment: fixed; /* Parallax effect */
+            background-blend-mode: overlay; /* Mezcla el patrón con el color de fondo */
         }
-
+        /* Contenedor principal con efecto de "flotar" un poco */
         .container {
             max-width: 1200px;
-            /* Ancho máximo del contenido */
+            box-shadow: 0 0px 40px rgba(0, 0, 0, 0.5); /* Sombra intensa para efecto de profundidad */
+            border-left: 1px solid rgba(255, 255, 255, 0.05); /* Borde sutil a la izquierda */
+            border-right: 1px solid rgba(255, 255, 255, 0.05); /* Borde sutil a la derecha */
         }
-
+        /* Secciones de contenido con estilos temáticos */
         .content-section {
-            background-color: rgba(26, 26, 26, 0.9);
-            /* Fondo translúcido para las secciones */
-            backdrop-filter: blur(5px);
-            /* Efecto de desenfoque detrás del contenido */
+            background-color: rgba(18, 18, 18, 0.95); /* Fondo casi opaco pero con poco transparencia */
+            backdrop-filter: blur(8px); /* Desenfoque más fuerte */
+            border: 1px solid rgba(255, 255, 255, 0.08); /* Borde delgado y sutil */
+            transition: all 0.4s ease-in-out; /* Transición para efectos hover */
+        }
+        .content-section:hover {
+            transform: translateY(-5px); /* Eleva la sección ligeramente al pasar el ratón */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada al pasar el ratón */
         }
 
-        h1,
-        h2 {
+        /* Títulos H1 y H2 con estilo dramático y fuente Cinzel */
+        h1, h2 {
             font-family: 'Cinzel', serif;
-            /* Fuente más dramática para títulos */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1), 0 0 5px rgba(0, 0, 0, 0.8); /* Sombra de texto con brillo sutil */
+            color: #ececec; /* Color blanco claro para títulos */
+        }
+
+        /* Efecto de borde para títulos (línea divisoria) */
+        .title-border {
+            position: relative;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+            border-bottom: none; /* Eliminar borde de Tailwind o base */
+        }
+        .title-border::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translateX(-50%);
+            width: 80px; /* Ancho de la línea */
+            height: 2px; /* Grosor de la línea */
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(200, 200, 200, 0.5) 50%, rgba(255, 255, 255, 0) 100%); /* Degradado para la línea */
+            animation: pulse-line 3s infinite alternate; /* Animación sutil de la línea */
+        }
+        @keyframes pulse-line {
+            0% { transform: translateX(-50%) scaleX(1); opacity: 0.5; }
+            100% { transform: translateX(-50%) scaleX(1.1); opacity: 1; }
+        }
+
+        /* Estilos específicos para texto destacado */
+        .text-accent {
+            color: #a3e635; /* Verde lima para acentos, más vibrante */
+            font-style: italic;
+        }
+        .text-quote {
+            font-style: italic;
+            color: #b0b0b0;
+            border-left: 4px solid #444; /* Barra lateral para citas */
+            padding-left: 15px;
+            margin-top: 20px;
+        }
+
+        /* Navegación - Efecto Glitch sutil al hover */
+        .nav-link {
+            position: relative;
+            color: #a0a0a0;
+            transition: color 0.3s ease-in-out;
+        }
+        .nav-link::before,
+        .nav-link::after {
+            content: attr(data-text); /* Toma el texto del enlace */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            transition: all 0.3s ease-in-out;
+            color: #555; /* Color base para el glitch */
+        }
+        .nav-link::before {
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); /* Corta la parte superior */
+            transform: translateZ(0);
+        }
+        .nav-link::after {
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%); /* Corta la parte inferior */
+            transform: translateZ(0);
+        }
+        .nav-link:hover {
+            color: #f0f0f0;
+        }
+        .nav-link:hover::before {
+            color: #a3e635; /* Color del glitch superior */
+            transform: translateX(-2px) translateY(2px);
+            opacity: 0.8;
+        }
+        .nav-link:hover::after {
+            color: #ff0000; /* Color del glitch inferior */
+            transform: translateX(2px) translateY(-2px);
+            opacity: 0.8;
+        }
+
+        /* Hero Section - Imagen de fondo más dinámica */
+        .hero-section {
+            height: 100vh;
+            background-image: url('image1.webp'); /* Asegúrate que la ruta sea correcta */
+            background-size: cover;
+            background-position: center center;
+            background-attachment: fixed; /* Efecto Parallax en la imagen principal */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10; /* Asegura que el texto esté por encima de la imagen */
+            max-width: 800px;
+            padding: 2rem;
+            text-align: center;
+            background-color: rgba(25, 25, 25, 0.7); /* Fondo oscuro semitransparente para el texto */
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            animation: fadeInScale 1.5s ease-out; /* Animación de entrada */
+        }
+         @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        /* Galería de imágenes con efecto hover */
+        .gallery-item img {
+            transition: all 0.3s ease-in-out;
+            filter: grayscale(80%); /* Empieza en escala de grises */
+            border: 2px solid transparent;
+        }
+        .gallery-item img:hover {
+            filter: grayscale(0%); /* Color al hover */
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(163, 230, 53, 0.5); /* Sombra verde */
+            border-color: #a3e635; /* Borde verde */
+        }
+          /* Animación sutil de texto */
+        .animate-fade-in-up {
+            opacity: 0;
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
+<body class="antialiased scroll-smooth">
+    <div class="container mx-auto p-4 md:p-8">
 
-<body>
-    <!DOCTYPE html>
-    <html lang="es">
+        <!-- Sección Principal - Héroe Dinámico -->
+        <section class="hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight animate-fade-in-up" style="animation-delay: 0.2s;">
+                    Thomas Anotias: <br class="hidden md:block"> El Corresponsal Silencioso de Arkham
+                </h1>
+                <p class="text-xl md:text-2xl text-gray-300 italic animate-fade-in-up" style="animation-delay: 0.6s;">
+                    "La verdad acecha en las sombras, y yo estoy aquí para desenterrarla."
+                </p>
+            </div>
+        </section>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Thomas Anotias: Corresponsal de Arkham</title>
-        <!-- Incluir Tailwind CSS (usando el CDN para empezar rápido) -->
-        <script src="https://cdn.tailwindcss.com"></script>
-        <style>
-            /* Aquí puedes añadir tus clases CSS personalizadas si Tailwind no es suficiente */
-            body {
-                /* Estilo de fondo general, quizás una textura sutil o un gradiente */
-                background-color: #1a1a1a;
-                /* Oscuro para el ambiente de Cthulhu */
-                color: #e0e0e0;
-                /* Texto claro */
-                font-family: 'Georgia', serif;
-                /* Fuente un poco clásica */
-                background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><pattern id="pattern-zigzag" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 0 10 L 10 0 L 20 10 L 10 20 Z" fill="none" stroke="%23333333" stroke-width="0.5"/></pattern><rect width="100%" height="100%" fill="url(%23pattern-zigzag)"/></svg>');
-                /* Patrón de fondo sutil */
-            }
+        <!-- Cabecera de Navegación Fija -->
+        <header class="sticky top-0 z-20 bg-gray-900 bg-opacity-90 backdrop-filter backdrop-blur-lg py-4 shadow-lg mb-12 border-b border-gray-700">
+            <nav class="flex justify-center space-x-4 md:space-x-8 text-lg font-semibold">
+                <a href="#quien-es" class="nav-link" data-text="Quién es">Quién es</a>
+                <a href="#habilidades" class="nav-link" data-text="Habilidades">Habilidades</a>
+                <a href="#la-perdida" class="nav-link" data-text="La Pérdida">La Pérdida</a>
+                <a href="#personalidad" class="nav-link" data-text="Personalidad">Personalidad</a>
+                <a href="#motivaciones" class="nav-link" data-text="Motivaciones">Motivaciones</a>
+                <a href="#galeria" class="nav-link" data-text="Galería">Galería</a>
+            </nav>
+        </header>
 
-            .container {
-                max-width: 1200px;
-                /* Ancho máximo del contenido */
-            }
-
-            .content-section {
-                background-color: rgba(26, 26, 26, 0.9);
-                /* Fondo translúcido para las secciones */
-                backdrop-filter: blur(5px);
-                /* Efecto de desenfoque detrás del contenido */
-            }
-
-            h1,
-            h2 {
-                font-family: 'Cinzel', serif;
-                /* Fuente más dramática para títulos */
-                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-            }
-        </style>
-        <!-- Incluir Google Fonts (ejemplo, puedes elegir más) -->
-        <link
-            href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Georgia:wght@400;700&display=swap"
-            rel="stylesheet">
-    </head>
-
-    <body class="antialiased scroll-smooth"> <!-- antialiased y scroll-smooth son clases de Tailwind -->
-        <div class="container mx-auto p-4 md:p-8">
-            <!-- Sección Principal - Héroe -->
-            <section class="relative h-screen flex items-center justify-center overflow-hidden">
-                <img src="image1.webp" alt="Thomas Anotias, el corresponsal principal"
-                    class="absolute inset-0 w-full h-full object-cover">
-                <div class="absolute inset-0 bg-black opacity-60"></div> <!-- Capa oscura para el texto -->
-                <div
-                    class="relative z-10 text-center p-6 bg-black bg-opacity-70 rounded-lg shadow-xl max-w-2xl border border-gray-600">
-                    <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight">
-                        Thomas Anotias: <br> El Corresponsal Silencioso de Arkham
-                    </h1>
-                    <p class="text-xl md:text-2xl text-gray-300 italic">
-                        "La verdad acecha en las sombras, y yo estoy aquí para desenterrarla."
-                    </p>
+        <!-- Secciones de Contenido -->
+        <main class="space-y-16">
+            <!-- Sección: Quién es Thomas Anotias -->
+            <section id="quien-es" class="content-section p-8 rounded-lg shadow-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Quién es Thomas Anotias</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div class="space-y-6 text-lg md:text-xl">
+                        <p><strong class="font-semibold text-accent">Nombre Completo:</strong> Thomas Anotias (prefiere Sr. Anotias o Quill)</p>
+                        <p><strong class="font-semibold text-accent">Sexo:</strong> Masculino</p>
+                        <p><strong class="font-semibold text-accent">Edad:</strong> 26 años</p>
+                        <p><strong class="font-semibold text-accent">Profesión:</strong> Corresponsal del Arkham Advertiser</p>
+                        <p class="text-quote">"Mi oficio es la búsqueda de la verdad; mi alma, un archivo de sombras."</p>
+                    </div>
+                    <div>
+                        <img src="image2.webp" alt="Thomas Anotias, primer plano" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700">
+                    </div>
                 </div>
             </section>
 
-            <!-- Cabecera de Navegación Fija (Opcional) -->
-            <header
-                class="sticky top-0 z-20 bg-gray-900 bg-opacity-90 backdrop-filter backdrop-blur-lg py-4 shadow-lg mb-8">
-                <nav class="flex justify-center space-x-8 text-lg font-semibold">
-                    <a href="#quien-es" class="text-gray-300 hover:text-white transition duration-300">Quién es</a>
-                    <a href="#habilidades"
-                        class="text-gray-300 hover:text-white transition duration-300">Habilidades</a>
-                    <a href="#la-perdida" class="text-gray-300 hover:text-white transition duration-300">La Pérdida</a>
-                    <a href="#personalidad"
-                        class="text-gray-300 hover:text-white transition duration-300">Personalidad</a>
-                    <a href="#motivaciones"
-                        class="text-gray-300 hover:text-white transition duration-300">Motivaciones</a>
-                    <a href="#galeria" class="text-gray-300 hover:text-white transition duration-300">Galería</a>
-                </nav>
-            </header>
+            <!-- Sección: Habilidades Clave -->
+            <section id="habilidades" class="content-section p-8 rounded-lg shadow-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Habilidades Clave</h2>
+                <ul class="space-y-6 text-lg md:text-xl list-none pl-0">
+                    <li>
+                        <strong class="text-accent underline text-2xl">Investigación Rápida:</strong> Un rastreador nato de la información. Posee una habilidad innata para encontrar rápidamente datos relevantes en archivos, bibliotecas, periódicos antiguos o expedientes, y para conectar puntos que otros ignoran. Es eficiente y metódico en la búsqueda de la verdad documentada.
+                    </li>
+                    <li>
+                        <strong class="text-accent underline text-2xl">Evasión:</strong> Ha aprendido a moverse sin ser visto y a escapar de situaciones comprometedoras. Su agilidad física combinada con una capacidad para pasar desapercibido le permite deslizarse por callejones oscuros, moverse silenciosamente en edificios o desaparecer en una multitud. Prefiere evitar la confrontación directa siempre que sea posible.
+                    </li>
+                    <li>
+                        <strong class="text-accent underline text-2xl">Observación Detallada:</strong> Nada escapa a su mirada. Tiene una aguda capacidad para notar los pequeños detalles en su entorno: un objeto fuera de lugar, un gesto nervioso, cambios sutiles en el lenguaje corporal, o inconsistencias en una historia. Su mente analiza y procesa esta información de forma casi instantánea.
+                    </li>
+                </ul>
+            </section>
 
-            <!-- Secciones de Contenido -->
-            <main class="space-y-12">
-                <!-- Sección: Quién es Thomas Anotias -->
-                <section id="quien-es" class="content-section p-8 rounded-lg shadow-lg">
-                    <h2 class="text-4xl font-bold text-white mb-6 border-b-2 border-gray-600 pb-4 text-center">Quién es
-                        Thomas Anotias</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <p class="text-lg mb-4"><strong>Nombre Completo:</strong> Thomas Anotias (prefiere Sr.
-                                Anotias o Quill)</p>
-                            <p class="text-lg mb-4"><strong>Sexo:</strong> Masculino</p>
-                            <p class="text-lg mb-4"><strong>Edad:</strong> 26 años</p>
-                            <p class="text-lg mb-4"><strong>Profesión:</strong> Corresponsal del Arkham Advertiser</p>
-                        </div>
-                        <div>
-                            <img src="image2.webp" alt="Thomas Anotias, primer plano"
-                                class="w-full h-auto rounded-lg shadow-md border border-gray-700">
-                        </div>
+            <!-- Sección: La Sombra de Cindy (La Pérdida) -->
+            <section id="la-perdida" class="content-section p-8 rounded-lg shadow-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">La Sombra de Cindy</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div class="space-y-6 text-lg md:text-xl">
+                        <p>Hace dos años, su hermana menor, <strong class="text-accent">Cindy</strong>, desapareció sin dejar rastro mientras paseaba por los bosques cercanos a Arkham. Este evento marcó un antes y un después en la vida de Thomas.</p>
+                        <p class="text-quote">"Nunca hubo una despedida. No hubo un último adiós. Solo el vacío y la certeza de que algo más oscuro se la llevó. Mi responsabilidad ahora es encontrarla."</p>
                     </div>
-                </section>
-
-                <!-- Sección: Habilidades Clave -->
-                <section id="habilidades" class="content-section p-8 rounded-lg shadow-lg">
-                    <h2 class="text-4xl font-bold text-white mb-6 border-b-2 border-gray-600 pb-4 text-center">
-                        Habilidades Clave</h2>
-                    <ul class="space-y-4 text-lg">
-                        <li>
-                            <strong class="text-green-400">Investigación Rápida:</strong> Un rastreador nato de la
-                            información. Posee una habilidad innata para encontrar rápidamente datos relevantes en
-                            archivos, bibliotecas, periódicos antiguos o expedientes, y para conectar puntos que otros
-                            ignoran. Es eficiente y metódico en la búsqueda de la verdad documentada.
-                        </li>
-                        <li>
-                            <strong class="text-green-400">Evasión:</strong> Ha aprendido a moverse sin ser visto y a
-                            escapar de situaciones comprometedoras. Su agilidad física combinada con una capacidad para
-                            pasar desapercibido le permite deslizarse por callejones oscuros, moverse silenciosamente en
-                            edificios o desaparecer en una multitud. Prefiere evitar la confrontación directa siempre
-                            que sea posible.
-                        </li>
-                        <li>
-                            <strong class="text-green-400">Observación Detallada:</strong> Nada escapa a su mirada.
-                            Tiene una aguda capacidad para notar los pequeños detalles en su entorno: un objeto fuera de
-                            lugar, un gesto nervioso, cambios sutiles en el lenguaje corporal, o inconsistencias en una
-                            historia. Su mente analiza y procesa esta información de forma casi instantánea.
-                        </li>
-                    </ul>
-                </section>
-
-                <!-- Sección: La Sombra de Cindy (La Pérdida) -->
-                <section id="la-perdida" class="content-section p-8 rounded-lg shadow-lg">
-                    <h2 class="text-4xl font-bold text-white mb-6 border-b-2 border-gray-600 pb-4 text-center">La Sombra
-                        de Cindy</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <p class="text-lg mb-4">Hace dos años, su hermana menor, Cindy, desapareció sin dejar rastro
-                                mientras paseaba por los bosques cercanos a Arkham. Este evento marcó un antes y un
-                                después en la vida de Thomas.</p>
-                            <p class="text-lg mb-4 italic">"Siento la responsabilidad de protegerla. No descansaré hasta
-                                saber qué le pasó ese día. La verdad, por dolorosa que sea, debe salir a la luz."</p>
-                        </div>
-                        <div>
-                            <img src="image3.webp" alt="Cindy, la hermana desaparecida"
-                                class="w-full h-auto rounded-lg shadow-md border border-gray-700">
-                        </div>
+                    <div>
+                        <img src="image3.webp" alt="Cindy, la hermana desaparecida" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700">
                     </div>
-                </section>
+                </div>
+            </section>
 
-                <!-- Sección: Personalidad y Rasgos distintivos -->
-                <section id="personalidad" class="content-section p-8 rounded-lg shadow-lg">
-                    <h2 class="text-4xl font-bold text-white mb-6 border-b-2 border-gray-600 pb-4 text-center">Detrás de
-                        la Máscara: Profesionalismo y Obsesión</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-                        <div>
-                            <p class="text-lg mb-4">Thomas siempre viste de forma impecable, con trajes grises y
-                                sombreros fedora. Su apariencia pulcra contrasta con su trabajo, a menudo en lugares
-                                sucios o peligrosos. Siempre lleva su desgastada libreta Moleskine y su estilográfica
-                                Sheaffer Balance, símbolo de su compromiso con la verdad escrita.</p>
-                            <p class="text-lg mb-4">La cicatriz que le cruza parte de la boca es un recuerdo físico de
-                                una pelea de la infancia, sumando un punto de misterio a su rostro ya serio. Su
-                                personalidad es observadora, silenciosa y, a menudo, distante, prefiriendo la soledad
-                                para procesar sus pensamientos y su dolor.</p>
-                            <p class="text-lg italic">"El silencio a veces dice más que mil palabras. Y mis notas, ellas
-                                no mienten."</p>
-                        </div>
-                        <div>
-                            <img src="image4.webp" alt="Thomas Anotias, rasgo distintivo"
-                                class="w-full h-auto rounded-lg shadow-md border border-gray-700">
-                        </div>
+            <!-- Sección: Personalidad y Rasgos distintivos -->
+            <section id="personalidad" class="content-section p-8 rounded-lg shadow-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Detrás de la Máscara: Profesionalismo y Obsesión</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+                    <div class="space-y-6 text-lg md:text-xl">
+                        <p>Thomas siempre viste de forma impecable, con trajes grises y sombreros fedora. Su apariencia pulcra contrasta con su trabajo, a menudo en lugares sucios o peligrosos. Siempre lleva su desgastada libreta Moleskine y su estilográfica Sheaffer Balance, símbolo de su compromiso con la verdad escrita.</p>
+                        <p>La cicatriz que le cruza parte de la boca es un recuerdo físico de una pelea de la infancia, sumando un punto de misterio a su rostro ya serio. Su personalidad es observadora, silenciosa y, a menudo, distante, prefiriendo la soledad para procesar sus pensamientos y su dolor.</p>
+                        <p class="text-quote">"El silencio a veces dice más que mil palabras. Y mis notas, ellas no mienten."</p>
                     </div>
-                </section>
-
-                <!-- Sección: Motivaciones -->
-                <section id="motivaciones" class="content-section p-8 rounded-lg shadow-lg">
-                    <h2 class="text-4xl font-bold text-white mb-6 border-b-2 border-gray-600 pb-4 text-center">Impulsado
-                        por la Verdad</h2>
-                    <ul class="space-y-4 text-lg">
-                        <li>
-                            <strong class="text-pink-400">Encontrar a Cindy:</strong> Es su motivación principal y más
-                            profunda. Toda su existencia se orienta a desentrañar el misterio de la desaparición de su
-                            hermana, sin importar los horrores que deba enfrentar.
-                        </li>
-                        <li>
-                            <strong class="text-pink-400">Exponer la Verdad:</strong> No solo busca las respuestas de
-                            Cindy, sino que también siente una necesidad ardiente de sacar a la luz la corrupción y el
-                            mal que acechan en Arkham, incluso si eso significa enfrentarse a fuerzas poderosas y
-                            ocultas.
-                        </li>
-                        <li>
-                            <strong class="text-pink-400">Honrar la Memoria:</strong> Thomas se siente impulsado a
-                            seguir los valores inculcados por su padre: la búsqueda implacable de la verdad, la
-                            justicia, y la defensa de los más vulnerables en un mundo que a menudo los ignora.
-                        </li>
-                    </ul>
-                </section>
-
-                <!-- Sección: Galería de Imágenes -->
-                <section id="galeria" class="content-section p-8 rounded-lg shadow-lg">
-                    <h2 class="text-4xl font-bold text-white mb-6 border-b-2 border-gray-600 pb-4 text-center">El Mundo
-                        de Thomas</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <img src="image5.webp" alt="Thomas Anotias en la biblioteca"
-                            class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition duration-300 ease-in-out cursor-pointer">
-                        <img src="image1.webp" alt="Thomas Anotias observando"
-                            class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition duration-300 ease-in-out cursor-pointer">
-                        <img src="image2.webp" Thomas Anotias examinando objeto"
-                            class="w-full h-auto rounded-lg shadow-md hover:scale-105 transition duration-300 ease-in-out cursor-pointer">
-                        <!-- Añade más imágenes aquí -->
+                    <div>
+                        <img src="image4.webp" alt="Thomas Anotias, rasgo distintivo" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700">
                     </div>
-                </section>
-            </main>
+                </div>
+            </section>
 
-            <!-- Pie de página -->
-            <footer class="mt-12 text-center text-gray-500 text-sm">
-                <p>&copy; 2025 Perfil de Personaje Thomas Anotias. Creado para La Llamada de Cthulhu.</p>
-            </footer>
-        </div>
-    </body>
+            <!-- Sección: Motivaciones -->
+            <section id="motivaciones" class="content-section p-8 rounded-lg shadow-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Impulsado por la Verdad</h2>
+                <ul class="space-y-6 text-lg md:text-xl list-none pl-0">
+                    <li>
+                        <strong class="text-accent underline text-2xl">Encontrar a Cindy:</strong> Es su motivación principal y más profunda. Toda su existencia se orienta a desentrañar el misterio de la desaparición de su hermana, sin importar los horrores que deba enfrentar.
+                    </li>
+                    <li>
+                        <strong class="text-accent underline text-2xl">Exponer la Verdad:</strong> No solo busca las respuestas de Cindy, sino que también siente una necesidad ardiente de sacar a la luz la corrupción y el mal que acechan en Arkham, incluso si eso significa enfrentarse a fuerzas poderosas y ocultas.
+                    </li>
+                    <li>
+                        <strong class="text-accent underline text-2xl">Honrar la Memoria:</strong> Thomas se siente impulsado a seguir los valores inculcados por su padre: la búsqueda implacable de la verdad, la justicia, y la defensa de los más vulnerables en un mundo que a menudo los ignora.
+                    </li>
+                </ul>
+            </section>
 
-    </html>
+            <!-- Sección: Galería de Imágenes -->
+            <section id="galeria" class="content-section p-8 rounded-lg shadow-2xl">
+                <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">El Mundo de Thomas</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item">
+                        <img src="image5.webp" alt="Thomas Anotias en la biblioteca" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="image1.webp" alt="Thomas Anotias observando" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="image2.webp" alt="Thomas Anotias examinando objeto" class="w-full h-auto rounded-lg shadow-md">
+                    </div>
+                    <!-- Añade más imágenes aquí si las tienes -->
+                </div>
+            </section>
+        </main>
 
+        <!-- Pie de página -->
+        <footer class="mt-16 text-center text-gray-500 text-sm border-t border-gray-700 pt-8">
+            <p>&copy; 2025 Perfil de Personaje Thomas Anotias. Creado para La Llamada de Cthulhu.</p>
+            <p class="mt-2">Advertencia: Los horrores de Arkham son más profundos de lo que la razón puede comprender.</p>
+        </footer>
+    </div>
 
-
+    <!-- Script para animaciones de entrada. Idealmente iría en un archivo JS externo. -->
     <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null, // viewport
+                rootMargin: '0px',
+                threshold: 0.1 // 10% visible para activar
+            };
 
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-fade-in-up');
+                        observer.unobserve(entry.target); // Dejar de observar una vez que anima
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.content-section, .gallery-item img').forEach(section => {
+                observer.observe(section);
+            });
+        });
     </script>
 </body>
-
 </html>
