@@ -30,7 +30,7 @@
             margin: 0 auto;
             box-shadow: 0 0px 60px rgba(0, 0, 0, 0.7); /* Sombra difusa y profunda */
             border-left: 1px solid rgba(255, 255, 255, 0.08);
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.08); /* Bordes sutiles para enmarcar el contenido */
         }
 
         /* Secciones de contenido: capas, bordes y animación de entrada */
@@ -113,7 +113,7 @@
             text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
         }
 
-        /* Navegación - Efecto Glitch y brillo al hover */
+        /* Navegación - Efecto Glitch y brillo al hover (CORRECCIÓN FINAL) */
         .nav-link {
             position: relative;
             color: #a0a0a0; /* Color normal del texto del enlace (gris claro) */
@@ -125,7 +125,6 @@
             border-radius: 4px;
             text-decoration: none; /* Asegurar que no haya subrayado por defecto */
         }
-
         .nav-link::before,
         .nav-link::after {
             content: attr(data-text); /* Toma el texto del enlace */
@@ -140,8 +139,8 @@
             transform: translateZ(0); /* Acelera animación, pero no debe tener desplazamiento por defecto */
             opacity: 0; /* <<<--- ¡CLAVE! El glitch está invisible por defecto */
         }
-
-        /* ESTADO HOVER: AQUÍ SE ACTIVAN LOS COLORES Y EL DESPLAZAMIENTO DEL GLITCH */
+        /* ESTADO HOVER & ACTIVE: AQUÍ SE ACTIVAN LOS COLORES Y EL DESPLAZAMIENTO DEL GLITCH */
+        /* Al pasar el ratón */
         .nav-link:hover {
             color: #f0f0f0; /* Color principal más claro al hover */
             text-shadow: 0 0 10px rgba(163, 230, 53, 0.5); /* Brillo al hover */
@@ -158,8 +157,7 @@
             transform: translateX(4px) translateY(-4px); /* Desplazamiento del glitch */
             opacity: 1; /* HACER VISIBLE */
         }
-
-        /* ESTADO ACTIVE (Cuando la sección está visible por scroll): */
+        /* ESTADO ACTIVE (Cuando la sección está visible por scroll) */
         .nav-link.active {
             color: #a3e635; /* Color brillante para el enlace activo */
             text-shadow: 0 0 15px rgba(163, 230, 53, 0.7); /* Brillo más fuerte */
@@ -179,7 +177,6 @@
             transform: translateX(2px) translateY(-2px); /* Ligero desplazamiento del glitch */
             opacity: 1; /* HACER VISIBLE */
         }
-
 
         /* Hero Section - Imagen de fondo, superposición y animación de entrada */
         .hero-section {
@@ -479,7 +476,8 @@
                 sections.forEach(section => {
                     const sectionTop = section.offsetTop - document.querySelector('header').offsetHeight; // Ajustar por altura del header fijo
                     const sectionHeight = section.clientHeight;
-                    if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                    // Ajustar el umbral para que cambie el nav-link un poco antes de que la sección esté completamente arriba
+                    if (window.pageYOffset >= sectionTop - sectionHeight / 3 && window.pageYOffset < sectionTop + sectionHeight) {
                         current = section.getAttribute('id');
                     }
                 });
@@ -495,15 +493,18 @@
             window.addEventListener('scroll', highlightNavLink);
             highlightNavLink(); // Ejecutar al cargar para establecer la activa inicial
 
-            // Evitar animaciones iniciales en elementos que ya están en la vista al cargar
+            // Evitar animaciones iniciales en elementos que ya están en la vista al cargar (revisado)
+            // Esta parte se asegura de que los elementos que originalmente están en la vista al cargar
+            // también reciban la animación, aunque el IntersectionObserver no los detecte si ya están visibles.
             setTimeout(() => {
-                document.querySelectorAll('.animate-on-scroll:not(.animate-reveal)').forEach(el => {
-                    if (el.getBoundingClientRect().top < window.innerHeight) {
-                         el.classList.add('animate-reveal'); // Si ya están en vista, animarlos
+                document.querySelectorAll('.animate-on-scroll').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && !el.classList.contains('animate-reveal')) {
+                         el.classList.add('animate-reveal');
                          el.classList.add('animated');
                     }
                 });
-            }, 100); // Pequeño delay para asegurar que el DOM está listo
+            }, 500); // Pequeño delay para asegurar que el DOM y CSS estén cargados
         });
     </script>
 </body>
