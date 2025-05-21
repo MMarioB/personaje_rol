@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth"> <!-- scroll-smooth aquí -->
 
 <head>
     <meta charset="UTF-8">
@@ -13,11 +13,12 @@
         rel="stylesheet">
     <style>
         /* CSS Personalizado para la 'Vistosidad' y Atmosfera Cthulhu */
+        /* Eliminamos overflow-x: hidden del body y lo ponemos a html para una gestión global */
         html {
-            scroll-behavior: smooth;
+            overflow-x: hidden;
+            /* Asegura que no haya scroll horizontal no deseado */
         }
 
-        /* Desplazamiento suave para toda la página */
         body {
             font-family: 'Old Standard TT', serif;
             background-color: #0d0d0d;
@@ -26,8 +27,6 @@
             /* Gris muy oscuro para el texto, casi blanco roto */
             line-height: 1.8;
             /* Interlineado más generoso para legibilidad en fondos densos */
-            overflow-x: hidden;
-            /* Evita scroll horizontal por animaciones */
             /* Patrón de fondo más denso y oscuro para evocar textura de pergamino quemado */
             background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><pattern id="grid" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" fill="none" stroke="%231a1a1a" stroke-width="0.5" /></pattern><rect width="100%" height="100%" fill="url(%23grid)" /></svg>');
             background-attachment: fixed;
@@ -43,11 +42,10 @@
             max-width: 1400px;
             /* Un poco más ancho para más impacto visual */
             margin: 0 auto;
-            box-shadow: 0 0px 60px rgba(0, 0, 0, 0.7);
-            /* Sombra difusa y profunda */
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
-            border-right: 1px solid rgba(255, 255, 255, 0.08);
-            /* Bordes sutiles para enmarcar el contenido */
+            /* Eliminamos box-shadow y border laterales que podrían causar desbordes en móviles */
+            /* box-shadow: 0 0px 60px rgba(0, 0, 0, 0.7); */
+            /* border-left: 1px solid rgba(255, 255, 255, 0.08); */
+            /* border-right: 1px solid rgba(255, 255, 255, 0.08); */
         }
 
         /* Secciones de contenido: capas, bordes y animación de entrada */
@@ -107,6 +105,10 @@
             /* Sombra doble con brillo de acento */
             color: #f5f5f5;
             /* Blanco casi puro para un impacto claro */
+            overflow-wrap: break-word;
+            /* Rompe palabras largas para evitar desbordes */
+            hyphens: auto;
+            /* Permite guiones para mejor ajuste de texto */
         }
 
         .title-border {
@@ -170,6 +172,8 @@
             font-size: 1.15em;
             line-height: 1.5;
             text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
+            overflow-wrap: break-word;
+            /* Asegura el ajuste de texto en citas */
         }
 
         /* Navegación - Efecto Glitch y brillo al hover (CORRECCIÓN FINAL) */
@@ -189,22 +193,25 @@
             text-decoration: none;
             /* Asegurar que no haya subrayado por defecto */
             /* Ajuste del tamaño de fuente para móviles */
-            font-size: 0.8em;
-            /* Más pequeño para móvil */
+            font-size: 0.7em;
+            /* Aún más pequeño para móviles muy estrechos */
             margin-bottom: 5px;
             /* Pequeño margen inferior para apilado */
             text-align: center;
             /* Centrar el texto en cada link */
+            /* Control de espacio y flex-wrap para el nav */
+            flex-shrink: 0;
+            /* Evita que los enlaces se encojan demasiado */
         }
 
-        /* Ajuste de letter pacing para móviles */
+        /* Ajuste de letter spacing para móviles */
         @media (max-width: 767px) {
             .nav-link {
-                letter-spacing: 0.02em;
-                /* Menos espaciado en móviles ajustados */
-                font-size: 0.75em;
+                letter-spacing: 0em;
+                /* Sin espaciado adicional en móviles pequeños */
+                font-size: 0.65em;
                 /* Más pequeño aún */
-                padding: 6px 8px;
+                padding: 4px 6px;
                 /* Menos padding */
             }
         }
@@ -368,6 +375,8 @@
             /* Tamaño base para móviles pequeños */
             line-height: 1.1;
             margin-bottom: 0.5em;
+            overflow-wrap: break-word;
+            /* Asegura que el texto se rompa */
         }
 
         .hero-content p {
@@ -472,6 +481,44 @@
             animation: none !important;
             transition: none !important;
         }
+
+        /* Ajustes específicos para el header en móviles */
+        @media (max-width: 767px) {
+            header.sticky {
+                /* HEADER */
+                padding-left: 8px;
+                /* Pequeño margen a la izquierda */
+                padding-right: 8px;
+                /* Pequeño margen a la derecha */
+            }
+
+            header nav {
+                flex-wrap: wrap;
+                /* Permitir que los enlaces se envuelvan */
+                justify-content: center;
+                /* Centrar los enlaces envueltos */
+                gap: 5px 8px;
+                /* Pequeño espacio entre filas y columnas de enlaces */
+            }
+
+            .hero-content {
+                padding: 1.5rem;
+                /* Menos padding en hero para móviles muy pequeños */
+            }
+
+            h2,
+            h3 {
+                /* Títulos de sección más pequeños en móvil */
+                font-size: 2em;
+                /* Equivalente a text-3xl */
+            }
+
+            .text-accent.underline.text-xl,
+            .text-accent.underline.text-2xl {
+                font-size: 1.1em;
+                /* Ajuste para los strong de las habilidades */
+            }
+        }
     </style>
 </head>
 
@@ -568,7 +615,7 @@
             <section id="la-perdida" class="content-section p-8 rounded-lg shadow-2xl animate-on-scroll">
                 <h2 class="text-3xl md:text-5xl font-bold text-white title-border text-center">La Sombra de Cindy</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                    <div class="grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-base md:text-xl relative z-10">
                         <p>Hace dos años, su hermana menor, <strong class="text-accent">Cindy</strong>, desapareció sin
                             dejar rastro mientras paseaba por los bosques cercanos a Arkham. Este evento marcó un antes
                             y un después en la vida de Thomas.</p>
