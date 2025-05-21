@@ -13,7 +13,6 @@
         rel="stylesheet">
     <style>
         /* CSS Personalizado para la 'Vistosidad' y Atmosfera Cthulhu */
-        /* Eliminamos overflow-x: hidden del body y lo ponemos a html para una gestión global */
         html {
             overflow-x: hidden;
             /* Asegura que no haya scroll horizontal no deseado */
@@ -37,15 +36,10 @@
             /* Cursor temático (círculo verde) */
         }
 
-        /* Contenedor principal - envoltorio para el contenido */
+        /* AJUSTE CLAVE: Eliminamos max-width del .container aquí. Tailwind lo manejará en el HTML. */
         .container {
-            max-width: 1400px;
-            /* Un poco más ancho para más impacto visual */
             margin: 0 auto;
             /* Eliminamos box-shadow y border laterales que podrían causar desbordes en móviles */
-            /* box-shadow: 0 0px 60px rgba(0, 0, 0, 0.7); */
-            /* border-left: 1px solid rgba(255, 255, 255, 0.08); */
-            /* border-right: 1px solid rgba(255, 255, 255, 0.08); */
         }
 
         /* Secciones de contenido: capas, bordes y animación de entrada */
@@ -185,6 +179,9 @@
             font-family: 'Cinzel', serif;
             /* Títulos de navegación con Cinzel */
             font-weight: 700;
+            /* AJUSTE CLAVE: fontSize en NAV-LINK. Tailwind ya tiene text-xs, text-sm, etc. */
+            font-size: 0.75rem;
+            /* Base para móvil, equivalente a text-xs de Tailwind */
             letter-spacing: 0.05em;
             /* Espaciado entre letras */
             padding: 8px 12px;
@@ -192,30 +189,11 @@
             border-radius: 4px;
             text-decoration: none;
             /* Asegurar que no haya subrayado por defecto */
-            /* Ajuste del tamaño de fuente para móviles */
-            font-size: 0.7em;
-            /* Aún más pequeño para móviles muy estrechos */
-            margin-bottom: 5px;
-            /* Pequeño margen inferior para apilado */
             text-align: center;
             /* Centrar el texto en cada link */
-            /* Control de espacio y flex-wrap para el nav */
             flex-shrink: 0;
             /* Evita que los enlaces se encojan demasiado */
         }
-
-        /* Ajuste de letter spacing para móviles */
-        @media (max-width: 767px) {
-            .nav-link {
-                letter-spacing: 0em;
-                /* Sin espaciado adicional en móviles pequeños */
-                font-size: 0.65em;
-                /* Más pequeño aún */
-                padding: 4px 6px;
-                /* Menos padding */
-            }
-        }
-
 
         .nav-link::before,
         .nav-link::after {
@@ -370,8 +348,8 @@
         }
 
         .hero-content h1 {
-            /* Ajuste de tamaño de fuente para hero-content en móvil */
-            font-size: 2.2em;
+            /* AJUSTE CLAVE: Reducir H1 para móviles */
+            font-size: 2em;
             /* Tamaño base para móviles pequeños */
             line-height: 1.1;
             margin-bottom: 0.5em;
@@ -380,7 +358,7 @@
         }
 
         .hero-content p {
-            font-size: 1em;
+            font-size: 0.9em;
             /* Más pequeño para móviles */
             line-height: 1.4;
         }
@@ -389,11 +367,11 @@
 
             /* Para móviles un poco más grandes */
             .hero-content h1 {
-                font-size: 3em;
+                font-size: 2.8em;
             }
 
             .hero-content p {
-                font-size: 1.2em;
+                font-size: 1.1em;
             }
         }
 
@@ -482,23 +460,22 @@
             transition: none !important;
         }
 
-        /* Ajustes específicos para el header en móviles */
+        /* AJUSTES ADICIONALES Y CRÍTICOS PARA MÓVILES */
         @media (max-width: 767px) {
-            header.sticky {
-                /* HEADER */
-                padding-left: 8px;
-                /* Pequeño margen a la izquierda */
-                padding-right: 8px;
-                /* Pequeño margen a la derecha */
+
+            /* Estilos para pantallas de hasta 767px (móviles y algunos tablets) */
+            .container {
+                padding: 0 !important;
+                /* Elimina el padding del container para que el contenido vaya de borde a borde */
             }
 
-            header nav {
-                flex-wrap: wrap;
-                /* Permitir que los enlaces se envuelvan */
-                justify-content: center;
-                /* Centrar los enlaces envueltos */
-                gap: 5px 8px;
-                /* Pequeño espacio entre filas y columnas de enlaces */
+            .content-section {
+                padding: 1.5rem;
+                /* Ajusta el padding interno de las secciones para móviles */
+                min-height: auto;
+                /* Permite que la altura se ajuste al contenido en móvil */
+                margin-bottom: 24px;
+                /* Ajusta el margen inferior de las secciones */
             }
 
             .hero-content {
@@ -509,8 +486,19 @@
             h2,
             h3 {
                 /* Títulos de sección más pequeños en móvil */
-                font-size: 2em;
-                /* Equivalente a text-3xl */
+                font-size: 1.8em;
+                /* Ajuste más pequeño para títulos */
+            }
+
+            .title-border {
+                padding-bottom: 15px;
+                /* Menos espacio para la línea del título */
+                margin-bottom: 25px;
+            }
+
+            .title-border::after {
+                width: 80px;
+                /* Línea de título más corta */
             }
 
             .text-accent.underline.text-xl,
@@ -518,6 +506,59 @@
                 font-size: 1.1em;
                 /* Ajuste para los strong de las habilidades */
             }
+
+            main.space-y-24 {
+                space-y: 6rem;
+                /* Aumenta el espacio entre secciones */
+            }
+
+            /* Navbar en Móvil */
+            header {
+                padding-left: 8px;
+                padding-right: 8px;
+                margin-bottom: 1rem;
+                /* Menos margen inferior para el header */
+            }
+
+            nav.flex {
+                flex-wrap: wrap;
+                /* Permitir que los enlaces se envuelvan */
+                justify-center: center !important;
+                /* Asegura el centrado */
+                gap: 5px 8px;
+                /* Espacio entre los enlaces, incluyendo en la línea */
+            }
+
+            .nav-link {
+                font-size: 0.6rem !important;
+                /* Tamaño de fuente aún más pequeño */
+                letter-spacing: normal !important;
+                /* Quitar espaciado de letras */
+                padding: 4px 6px !important;
+                /* Menos padding */
+                flex-basis: auto;
+                /* Permite que cada link tenga su ancho */
+            }
+
+            /* Asegurar que las imágenes de grid se comporten bien en móvil */
+            .grid-cols-1 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-cols-2 {
+                grid-template-columns: 1fr;
+            }
+
+            .grid-cols-3 {
+                grid-template-columns: 1fr;
+            }
+
+            .md\:grid-cols-2,
+            .lg\:grid-cols-3 {
+                grid-template-columns: 1fr;
+                /* Forzar una columna en móvil */
+            }
+
         }
     </style>
 </head>
@@ -537,7 +578,8 @@
     </section>
 
     <!-- Contenedor principal para el resto del contenido con margen automático para centrarlo -->
-    <div class="container mx-auto p-4 md:p-8">
+    <!-- AJUSTE CLAVE: max-w-screen-xl para un comportamiento responsivo del ancho máximo -->
+    <div class="container mx-auto p-4 md:p-8 max-w-screen-xl">
 
         <!-- Cabecera de Navegación Fija - Con efecto de profundidad y Glitch -->
         <header
