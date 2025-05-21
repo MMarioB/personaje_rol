@@ -4,91 +4,128 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thomas Anotias: Corresponsal de Arkham</title>
-    <!-- Incluir Tailwind CSS (CDN - ideal para empezar rápido) -->
+    <!-- Incluir Tailwind CSS (CDN - para empezar rápido) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Incluir Google Fonts para un estilo clásico y dramático -->
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Incluir Google Fonts (Cinzel para títulos, Old Standard TT para cuerpo, Playfair Display para citas) -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <style>
         /* CSS Personalizado para la 'Vistosidad' y Atmosfera Cthulhu */
+        html { scroll-behavior: smooth; } /* Desplazamiento suave para toda la página */
         body {
-            /* Fuente de cuerpo basada en Old Standard TT para un toque vintage y formal */
             font-family: 'Old Standard TT', serif;
-            background-color: #121212; /* Un negro muy oscuro para el ambiente lúgubre */
-            color: #d1d1d1; /* Gris claro para el texto, menos duro que el blanco puro */
-            line-height: 1.7; /* Mayor interlineado para legibilidad en fondos oscuros */
-            /* Patrón de fondo sutil inspirado en textura de papel/pergamino antiguo */
-            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><pattern id="pattern-zigzag" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M 0 10 L 10 0 L 20 10 L 10 20 Z" fill="none" stroke="%23333333" stroke-width="0.5"/></pattern><rect width="100%" height="100%" fill="url(%23pattern-zigzag)"/></svg>');
+            background-color: #0d0d0d; /* Fondo ultra oscuro, casi negro */
+            color: #c9c9c9; /* Gris muy oscuro para el texto, casi blanco roto */
+            line-height: 1.8; /* Interlineado más generoso para legibilidad en fondos densos */
+            overflow-x: hidden; /* Evita scroll horizontal por animaciones */
+            /* Patrón de fondo más denso y oscuro para evocar textura de pergamino quemado */
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><pattern id="grid" width="8" height="8" patternUnits="userSpaceOnUse"><path d="M 8 0 L 0 0 0 8" fill="none" stroke="%231a1a1a" stroke-width="0.5" /></pattern><rect width="100%" height="100%" fill="url(%23grid)" /></svg>');
             background-attachment: fixed; /* Parallax effect */
-            background-blend-mode: overlay; /* Mezcla el patrón con el color de fondo */
+            background-blend-mode: multiply; /* Mezcla el patrón para oscurecer y añadir textura */
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23a3e635" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-circle"><circle cx="12" cy="12" r="10"></circle></svg>') 12 12, auto; /* Cursor temático (círculo verde) */
         }
-        /* Contenedor principal con efecto de "flotar" un poco */
+
+        /* Contenedor principal - envoltorio para el contenido */
         .container {
-            max-width: 1200px;
-            box-shadow: 0 0px 40px rgba(0, 0, 0, 0.5); /* Sombra intensa para efecto de profundidad */
-            border-left: 1px solid rgba(255, 255, 255, 0.05); /* Borde sutil a la izquierda */
-            border-right: 1px solid rgba(255, 255, 255, 0.05); /* Borde sutil a la derecha */
+            max-width: 1400px; /* Un poco más ancho para más impacto visual */
+            margin: 0 auto;
+            box-shadow: 0 0px 60px rgba(0, 0, 0, 0.7); /* Sombra difusa y profunda */
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
         }
-        /* Secciones de contenido con estilos temáticos */
+
+        /* Secciones de contenido: capas, bordes y animación de entrada */
         .content-section {
-            background-color: rgba(18, 18, 18, 0.95); /* Fondo casi opaco pero con poco transparencia */
-            backdrop-filter: blur(8px); /* Desenfoque más fuerte */
-            border: 1px solid rgba(255, 255, 255, 0.08); /* Borde delgado y sutil */
-            transition: all 0.4s ease-in-out; /* Transición para efectos hover */
+            background-color: rgba(13, 13, 13, 0.85); /* Fondo más transparente sobre el patrón de fondo */
+            backdrop-filter: blur(10px) grayscale(20%); /* Desenfoque más fuerte, toque sepia */
+            border: 1px solid rgba(255, 255, 255, 0.1); /* Borde sutil */
+            border-radius: 8px; /* Bordes redondeados */
+            transition: all 0.5s ease-in-out; /* Transición para efectos hover y scroll */
+            padding: 2.5rem; /* Aumento el padding para más "aire" */
+            min-height: 400px; /* Altura mínima para asegurar espacio */
+            position: relative; /* Para efectos internos */
+            overflow: hidden; /* Asegura que los elementos internos no se desborden al animar */
+        }
+        .content-section::before { /* Elemento decorativo para el borde superior */
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #a3e635, transparent);
+            transform: scaleX(0);
+            transform-origin: left center;
+            transition: transform 0.5s ease-out;
+        }
+        .content-section.animated::before {
+            transform: scaleX(1);
         }
         .content-section:hover {
-            transform: translateY(-5px); /* Eleva la sección ligeramente al pasar el ratón */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); /* Sombra más pronunciada al pasar el ratón */
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7); /* Sombra más intensa al pasar el ratón */
+            border-color: #a3e635; /* Borde de acento al pasar el ratón */
         }
 
-        /* Títulos H1 y H2 con estilo dramático y fuente Cinzel */
-        h1, h2 {
+        /* Títulos: Fuentes dramáticas y efectos */
+        h1, h2, h3 {
             font-family: 'Cinzel', serif;
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.1), 0 0 5px rgba(0, 0, 0, 0.8); /* Sombra de texto con brillo sutil */
-            color: #ececec; /* Color blanco claro para títulos */
+            text-shadow: 0 0 15px rgba(163, 230, 53, 0.2), 0 0 8px rgba(0, 0, 0, 0.9); /* Sombra doble con brillo de acento */
+            color: #f5f5f5; /* Blanco casi puro para un impacto claro */
         }
-
-        /* Efecto de borde para títulos (línea divisoria) */
         .title-border {
             position: relative;
-            padding-bottom: 20px;
+            padding-bottom: 25px; /* Más espacio para la línea inferior */
             margin-bottom: 40px;
-            border-bottom: none; /* Eliminar borde de Tailwind o base */
         }
         .title-border::after {
             content: '';
             position: absolute;
-            left: 50%;
             bottom: 0;
+            left: 50%;
             transform: translateX(-50%);
-            width: 80px; /* Ancho de la línea */
-            height: 2px; /* Grosor de la línea */
-            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(200, 200, 200, 0.5) 50%, rgba(255, 255, 255, 0) 100%); /* Degradado para la línea */
+            width: 120px; /* Línea más larga */
+            height: 3px; /* Más gruesa */
+            background: linear-gradient(to right, transparent 0%, #a3e635 15%, #a3e635 85%, transparent 100%); /* Degradado para la línea activa */
+            border-radius: 1px;
             animation: pulse-line 3s infinite alternate; /* Animación sutil de la línea */
+            opacity: 0.7;
         }
         @keyframes pulse-line {
-            0% { transform: translateX(-50%) scaleX(1); opacity: 0.5; }
-            100% { transform: translateX(-50%) scaleX(1.1); opacity: 1; }
+            0% { transform: translateX(-50%) scaleX(0.8); opacity: 0.6; }
+            50% { transform: translateX(-50%) scaleX(1.1); opacity: 1; }
+            100% { transform: translateX(-50%) scaleX(0.8); opacity: 0.6; }
         }
 
-        /* Estilos específicos para texto destacado */
+        /* Estilos específicos para texto temático */
         .text-accent {
-            color: #a3e635; /* Verde lima para acentos, más vibrante */
-            font-style: italic;
+            color: #a3e635; /* Verde lima para acentos, más brillante y sobrenatural */
+            font-weight: 700;
         }
         .text-quote {
+            font-family: 'Playfair Display', serif; /* Tipo de letra diferente para citas */
             font-style: italic;
             color: #b0b0b0;
-            border-left: 4px solid #444; /* Barra lateral para citas */
-            padding-left: 15px;
-            margin-top: 20px;
+            border-left: 5px solid #a3e635; /* Barra lateral de acento más fuerte */
+            padding-left: 20px;
+            margin-top: 25px;
+            font-size: 1.15em;
+            line-height: 1.5;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.4);
         }
 
-        /* Navegación - Efecto Glitch sutil al hover */
+        /* Navegación - Efecto Glitch y brillo al hover */
         .nav-link {
             position: relative;
-            color: #a0a0a0;
+            color: #a0a0a0; /* Color normal del texto del enlace (gris claro) */
             transition: color 0.3s ease-in-out;
+            font-family: 'Cinzel', serif; /* Títulos de navegación con Cinzel */
+            font-weight: 700;
+            letter-spacing: 0.05em; /* Espaciado entre letras */
+            padding: 8px 12px; /* Área clickable */
+            border-radius: 4px;
+            text-decoration: none; /* Asegurar que no haya subrayado por defecto */
         }
+
         .nav-link::before,
         .nav-link::after {
             content: attr(data-text); /* Toma el texto del enlace */
@@ -98,111 +135,185 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            pointer-events: none;
-            transition: all 0.3s ease-in-out;
-            color: #555; /* Color base para el glitch */
-        }
-        .nav-link::before {
-            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); /* Corta la parte superior */
-            transform: translateZ(0);
-        }
-        .nav-link::after {
-            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%); /* Corta la parte inferior */
-            transform: translateZ(0);
-        }
-        .nav-link:hover {
-            color: #f0f0f0;
-        }
-        .nav-link:hover::before {
-            color: #a3e635; /* Color del glitch superior */
-            transform: translateX(-2px) translateY(2px);
-            opacity: 0.8;
-        }
-        .nav-link:hover::after {
-            color: #ff0000; /* Color del glitch inferior */
-            transform: translateX(2px) translateY(-2px);
-            opacity: 0.8;
+            pointer-events: none; /* Permite clickar a través del glitch */
+            transition: all 0.3s ease-in-out; /* Animación de entrada y salida del glitch */
+            transform: translateZ(0); /* Acelera animación, pero no debe tener desplazamiento por defecto */
+            opacity: 0; /* <<<--- ¡CLAVE! El glitch está invisible por defecto */
         }
 
-        /* Hero Section - Imagen de fondo más dinámica */
+        /* ESTADO HOVER: AQUÍ SE ACTIVAN LOS COLORES Y EL DESPLAZAMIENTO DEL GLITCH */
+        .nav-link:hover {
+            color: #f0f0f0; /* Color principal más claro al hover */
+            text-shadow: 0 0 10px rgba(163, 230, 53, 0.5); /* Brillo al hover */
+        }
+        .nav-link:hover::before {
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%); /* Activa el corte */
+            color: #a3e635; /* Color del glitch superior */
+            transform: translateX(-4px) translateY(4px); /* Desplazamiento del glitch */
+            opacity: 1; /* HACER VISIBLE */
+        }
+        .nav-link:hover::after {
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%); /* Activa el corte */
+            color: #ff3366; /* Color del glitch inferior */
+            transform: translateX(4px) translateY(-4px); /* Desplazamiento del glitch */
+            opacity: 1; /* HACER VISIBLE */
+        }
+
+        /* ESTADO ACTIVE (Cuando la sección está visible por scroll): */
+        .nav-link.active {
+            color: #a3e635; /* Color brillante para el enlace activo */
+            text-shadow: 0 0 15px rgba(163, 230, 53, 0.7); /* Brillo más fuerte */
+            border: 1px solid #a3e635; /* Borde al enlace activo */
+            background-color: rgba(163, 230, 53, 0.1); /* Fondo sutil al enlace activo */
+        }
+        /* El glitch también se activa en el estado 'active' */
+        .nav-link.active::before {
+            clip-path: polygon(0 0, 100% 0, 100% 50%, 0 50%);
+            color: #a3e635;
+            transform: translateX(-2px) translateY(2px); /* Ligero desplazamiento del glitch */
+            opacity: 1; /* HACER VISIBLE */
+        }
+        .nav-link.active::after {
+            clip-path: polygon(0 50%, 100% 50%, 100% 100%, 0 100%);
+            color: #ff3366;
+            transform: translateX(2px) translateY(-2px); /* Ligero desplazamiento del glitch */
+            opacity: 1; /* HACER VISIBLE */
+        }
+
+
+        /* Hero Section - Imagen de fondo, superposición y animación de entrada */
         .hero-section {
-            height: 100vh;
             background-image: url('image1.webp'); /* Asegúrate que la ruta sea correcta */
             background-size: cover;
             background-position: center center;
             background-attachment: fixed; /* Efecto Parallax en la imagen principal */
+            min-height: 100vh; /* Para que ocupe al menos toda la altura de la vista */
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
             overflow: hidden;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
+            border-bottom: 3px solid rgba(255,255,255,0.1);
+            animation: fadeInBackground 2s ease-out;
+        }
+        @keyframes fadeInBackground {
+            from { background-color: #000; opacity: 0; }
+            to { background-color: #0d0d0d; opacity: 1; }
         }
 
         .hero-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.7) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.8) 100%);
+            backdrop-filter: blur(5px) grayscale(30%); /* Desenfoque y blanco y negro para dramatismo */
         }
 
         .hero-content {
             position: relative;
-            z-index: 10; /* Asegura que el texto esté por encima de la imagen */
-            max-width: 800px;
-            padding: 2rem;
+            z-index: 10;
+            max-width: 900px; /* Aumento para el texto más grande */
+            padding: 3rem; /* Más padding */
             text-align: center;
-            background-color: rgba(25, 25, 25, 0.7); /* Fondo oscuro semitransparente para el texto */
-            border-radius: 12px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(255,255,255,0.1);
-            animation: fadeInScale 1.5s ease-out; /* Animación de entrada */
+            background-color: rgba(20, 20, 20, 0.85); /* Fondo oscuro semitransparente para el texto */
+            border-radius: 16px; /* Más redondeado */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.9), 0 0 10px rgba(163, 230, 53, 0.3); /* Sombra dramática con brillo verde */
+            border: 1px solid rgba(255,255,255,0.2);
+            animation: fadeInScale 1.8s ease-out; /* Animación de entrada más lenta */
         }
          @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.9) translateY(20px); }
+            from { opacity: 0; transform: scale(0.8) translateY(50px); }
             to { opacity: 1; transform: scale(1) translateY(0); }
         }
+        .hero-content h1 {
+            font-size: 4em; /* Más grande aún */
+            line-height: 1.1;
+            margin-bottom: 0.5em;
+        }
+        .hero-content p {
+            font-size: 1.6em;
+            line-height: 1.4;
+        }
+        @media (min-width: 768px) {
+            .hero-content h1 { font-size: 6em; } /* Tamaño gigante en pantallas grandes */
+            .hero-content p { font-size: 2em; }
+        }
 
-        /* Galería de imágenes con efecto hover */
+
+        /* Galería de imágenes con hover y efectos de borde */
         .gallery-item img {
-            transition: all 0.3s ease-in-out;
-            filter: grayscale(80%); /* Empieza en escala de grises */
+            transition: all 0.4s ease-in-out;
+            filter: grayscale(90%) contrast(70%) brightness(80%); /* Empieza en escala de grises, bajo contraste y brillo */
             border: 2px solid transparent;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            /* Borde inicial casi invisible */
         }
         .gallery-item img:hover {
-            filter: grayscale(0%); /* Color al hover */
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(163, 230, 53, 0.5); /* Sombra verde */
-            border-color: #a3e635; /* Borde verde */
+            filter: grayscale(0%) contrast(100%) brightness(100%); /* Full color al hover */
+            transform: scale(1.08) rotate(1deg); /* Ligera rotación y escala */
+            box-shadow: 0 0 25px rgba(163, 230, 53, 0.7), 0 0 10px rgba(0,0,0,0.8); /* Sombra verde prominente */
+            border-color: #a3e635; /* Borde verde fuerte */
         }
-          /* Animación sutil de texto */
-        .animate-fade-in-up {
+
+        /* Animación general de entrada de secciones (a medida que se hace scroll) */
+        .animate-on-scroll {
             opacity: 0;
-            animation: fadeInUp 0.8s ease-out forwards;
+            transform: translateY(50px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
         }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .animate-on-scroll.animate-reveal {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Rotación sutil en las imágenes de las secciones */
+        .section-image {
+            transform: rotate(-1deg);
+            transition: transform 0.4s ease-in-out;
+        }
+        .section-image:hover {
+            transform: rotate(0deg) scale(1.02);
+        }
+        /* Footer más elaborado */
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.08); /* Borde superior sutil */
+            padding-top: 3rem;
+            color: #888;
+            font-size: 0.9em;
+            line-height: 1.6;
+            animation: fadeIn 2s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        /* Clase para evitar que las animaciones iniciales se disparen al cargar la página */
+        .no-animation {
+            animation: none !important;
+            transition: none !important;
         }
     </style>
 </head>
-<body class="antialiased scroll-smooth">
+<body class="antialiased"> <!-- Eliminamos scroll-smooth del body y lo ponemos en html -->
+
+    <!-- Sección Principal - Héroe Dinámico y Dramático -->
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="font-bold text-white mb-4 leading-tight animate-fade-in-up" style="animation-delay: 0.2s;">
+                Thomas Anotias: <br class="hidden md:block"> El Corresponsal Silencioso de Arkham
+            </h1>
+            <p class="text-gray-300 italic animate-fade-in-up" style="animation-delay: 0.6s;">
+                "La verdad acecha en las sombras, y yo estoy aquí para desenterrarla."
+            </p>
+        </div>
+    </section>
+
+    <!-- Contenedor principal para el resto del contenido con margen automático para centrarlo -->
     <div class="container mx-auto p-4 md:p-8">
 
-        <!-- Sección Principal - Héroe Dinámico -->
-        <section class="hero-section">
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <h1 class="text-5xl md:text-7xl font-bold text-white mb-4 leading-tight animate-fade-in-up" style="animation-delay: 0.2s;">
-                    Thomas Anotias: <br class="hidden md:block"> El Corresponsal Silencioso de Arkham
-                </h1>
-                <p class="text-xl md:text-2xl text-gray-300 italic animate-fade-in-up" style="animation-delay: 0.6s;">
-                    "La verdad acecha en las sombras, y yo estoy aquí para desenterrarla."
-                </p>
-            </div>
-        </section>
-
-        <!-- Cabecera de Navegación Fija -->
-        <header class="sticky top-0 z-20 bg-gray-900 bg-opacity-90 backdrop-filter backdrop-blur-lg py-4 shadow-lg mb-12 border-b border-gray-700">
+        <!-- Cabecera de Navegación Fija - Con efecto de profundidad y Glitch -->
+        <header class="sticky top-0 z-20 bg-gray-900 bg-opacity-80 backdrop-filter backdrop-blur-xl py-4 shadow-xl mb-16 border-b border-gray-700">
             <nav class="flex justify-center space-x-4 md:space-x-8 text-lg font-semibold">
                 <a href="#quien-es" class="nav-link" data-text="Quién es">Quién es</a>
                 <a href="#habilidades" class="nav-link" data-text="Habilidades">Habilidades</a>
@@ -213,114 +324,132 @@
             </nav>
         </header>
 
-        <!-- Secciones de Contenido -->
-        <main class="space-y-16">
+        <!-- Secciones de Contenido Principal -->
+        <main class="space-y-24"> <!-- Aumento el espaciado entre secciones -->
             <!-- Sección: Quién es Thomas Anotias -->
-            <section id="quien-es" class="content-section p-8 rounded-lg shadow-2xl">
+            <section id="quien-es" class="content-section p-8 rounded-lg shadow-2xl animate-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Quién es Thomas Anotias</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                    <div class="space-y-6 text-lg md:text-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-lg md:text-xl relative z-10">
                         <p><strong class="font-semibold text-accent">Nombre Completo:</strong> Thomas Anotias (prefiere Sr. Anotias o Quill)</p>
                         <p><strong class="font-semibold text-accent">Sexo:</strong> Masculino</p>
                         <p><strong class="font-semibold text-accent">Edad:</strong> 26 años</p>
                         <p><strong class="font-semibold text-accent">Profesión:</strong> Corresponsal del Arkham Advertiser</p>
                         <p class="text-quote">"Mi oficio es la búsqueda de la verdad; mi alma, un archivo de sombras."</p>
                     </div>
-                    <div>
-                        <img src="image2.webp" alt="Thomas Anotias, primer plano" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700">
+                    <div class="relative">
+                        <img src="image2.webp" alt="Thomas Anotias, primer plano" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700 section-image">
+                        <!-- Pequeña mancha de tinta/sombra adicional -->
+                        <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-gray-900 rounded-full mix-blend-multiply opacity-50 filter blur-xl"></div>
                     </div>
                 </div>
             </section>
 
             <!-- Sección: Habilidades Clave -->
-            <section id="habilidades" class="content-section p-8 rounded-lg shadow-2xl">
+            <section id="habilidades" class="content-section p-8 rounded-lg shadow-2xl animate-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Habilidades Clave</h2>
-                <ul class="space-y-6 text-lg md:text-xl list-none pl-0">
-                    <li>
+                <ul class="space-y-8 text-lg md:text-xl list-none pl-0">
+                    <li class="relative pl-8">
+                        <span class="absolute left-0 text-accent text-3xl leading-none">✶</span> <!-- Icono decorativo -->
                         <strong class="text-accent underline text-2xl">Investigación Rápida:</strong> Un rastreador nato de la información. Posee una habilidad innata para encontrar rápidamente datos relevantes en archivos, bibliotecas, periódicos antiguos o expedientes, y para conectar puntos que otros ignoran. Es eficiente y metódico en la búsqueda de la verdad documentada.
                     </li>
-                    <li>
+                    <li class="relative pl-8">
+                        <span class="absolute left-0 text-accent text-3xl leading-none">✴</span>
                         <strong class="text-accent underline text-2xl">Evasión:</strong> Ha aprendido a moverse sin ser visto y a escapar de situaciones comprometedoras. Su agilidad física combinada con una capacidad para pasar desapercibido le permite deslizarse por callejones oscuros, moverse silenciosamente en edificios o desaparecer en una multitud. Prefiere evitar la confrontación directa siempre que sea posible.
                     </li>
-                    <li>
+                    <li class="relative pl-8">
+                        <span class="absolute left-0 text-accent text-3xl leading-none">👁️</span>
                         <strong class="text-accent underline text-2xl">Observación Detallada:</strong> Nada escapa a su mirada. Tiene una aguda capacidad para notar los pequeños detalles en su entorno: un objeto fuera de lugar, un gesto nervioso, cambios sutiles en el lenguaje corporal, o inconsistencias en una historia. Su mente analiza y procesa esta información de forma casi instantánea.
                     </li>
                 </ul>
             </section>
 
             <!-- Sección: La Sombra de Cindy (La Pérdida) -->
-            <section id="la-perdida" class="content-section p-8 rounded-lg shadow-2xl">
+            <section id="la-perdida" class="content-section p-8 rounded-lg shadow-2xl animate-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">La Sombra de Cindy</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                    <div class="space-y-6 text-lg md:text-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-lg md:text-xl relative z-10">
                         <p>Hace dos años, su hermana menor, <strong class="text-accent">Cindy</strong>, desapareció sin dejar rastro mientras paseaba por los bosques cercanos a Arkham. Este evento marcó un antes y un después en la vida de Thomas.</p>
                         <p class="text-quote">"Nunca hubo una despedida. No hubo un último adiós. Solo el vacío y la certeza de que algo más oscuro se la llevó. Mi responsabilidad ahora es encontrarla."</p>
                     </div>
-                    <div>
-                        <img src="image3.webp" alt="Cindy, la hermana desaparecida" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700">
+                    <div class="relative">
+                        <img src="image3.webp" alt="Cindy, la hermana desaparecida" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700 section-image transform rotate-1"> <!-- Rotación sutil -->
+                        <div class="absolute -top-4 -left-4 w-28 h-28 bg-red-900 rounded-full mix-blend-multiply opacity-40 filter blur-xl"></div>
                     </div>
                 </div>
             </section>
 
             <!-- Sección: Personalidad y Rasgos distintivos -->
-            <section id="personalidad" class="content-section p-8 rounded-lg shadow-2xl">
+            <section id="personalidad" class="content-section p-8 rounded-lg shadow-2xl animate-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Detrás de la Máscara: Profesionalismo y Obsesión</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                    <div class="space-y-6 text-lg md:text-xl">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-6 text-lg md:text-xl relative z-10">
                         <p>Thomas siempre viste de forma impecable, con trajes grises y sombreros fedora. Su apariencia pulcra contrasta con su trabajo, a menudo en lugares sucios o peligrosos. Siempre lleva su desgastada libreta Moleskine y su estilográfica Sheaffer Balance, símbolo de su compromiso con la verdad escrita.</p>
                         <p>La cicatriz que le cruza parte de la boca es un recuerdo físico de una pelea de la infancia, sumando un punto de misterio a su rostro ya serio. Su personalidad es observadora, silenciosa y, a menudo, distante, prefiriendo la soledad para procesar sus pensamientos y su dolor.</p>
                         <p class="text-quote">"El silencio a veces dice más que mil palabras. Y mis notas, ellas no mienten."</p>
                     </div>
-                    <div>
-                        <img src="image4.webp" alt="Thomas Anotias, rasgo distintivo" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700">
+                    <div class="relative">
+                        <img src="image4.webp" alt="Thomas Anotias, rasgo distintivo" class="w-full h-auto rounded-lg shadow-xl border-4 border-gray-700 section-image transform -rotate-1"> <!-- Rotación sutil -->
+                        <div class="absolute -bottom-4 -right-4 w-24 h-24 bg-purple-900 rounded-full mix-blend-multiply opacity-40 filter blur-xl"></div>
                     </div>
                 </div>
             </section>
 
             <!-- Sección: Motivaciones -->
-            <section id="motivaciones" class="content-section p-8 rounded-lg shadow-2xl">
+            <section id="motivaciones" class="content-section p-8 rounded-lg shadow-2xl animate-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">Impulsado por la Verdad</h2>
-                <ul class="space-y-6 text-lg md:text-xl list-none pl-0">
-                    <li>
+                <ul class="space-y-8 text-lg md:text-xl list-none pl-0">
+                    <li class="relative pl-8">
                         <strong class="text-accent underline text-2xl">Encontrar a Cindy:</strong> Es su motivación principal y más profunda. Toda su existencia se orienta a desentrañar el misterio de la desaparición de su hermana, sin importar los horrores que deba enfrentar.
                     </li>
-                    <li>
+                    <li class="relative pl-8">
                         <strong class="text-accent underline text-2xl">Exponer la Verdad:</strong> No solo busca las respuestas de Cindy, sino que también siente una necesidad ardiente de sacar a la luz la corrupción y el mal que acechan en Arkham, incluso si eso significa enfrentarse a fuerzas poderosas y ocultas.
                     </li>
-                    <li>
+                    <li class="relative pl-8">
                         <strong class="text-accent underline text-2xl">Honrar la Memoria:</strong> Thomas se siente impulsado a seguir los valores inculcados por su padre: la búsqueda implacable de la verdad, la justicia, y la defensa de los más vulnerables en un mundo que a menudo los ignora.
                     </li>
                 </ul>
             </section>
 
             <!-- Sección: Galería de Imágenes -->
-            <section id="galeria" class="content-section p-8 rounded-lg shadow-2xl">
+            <section id="galeria" class="content-section p-8 rounded-lg shadow-2xl animate-on-scroll">
                 <h2 class="text-4xl md:text-5xl font-bold text-white title-border text-center">El Mundo de Thomas</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"> <!-- Aumento el gap -->
                     <div class="gallery-item">
-                        <img src="image5.webp" alt="Thomas Anotias en la biblioteca" class="w-full h-auto rounded-lg shadow-md">
+                        <img src="image5.webp" alt="Thomas Anotias en la biblioteca" class="w-full h-auto rounded-lg">
                     </div>
                     <div class="gallery-item">
-                        <img src="image1.webp" alt="Thomas Anotias observando" class="w-full h-auto rounded-lg shadow-md">
+                        <img src="image1.webp" alt="Thomas Anotias observando" class="w-full h-auto rounded-lg">
                     </div>
                     <div class="gallery-item">
-                        <img src="image2.webp" alt="Thomas Anotias examinando objeto" class="w-full h-auto rounded-lg shadow-md">
+                        <img src="image2.webp" alt="Thomas Anotias examinando objeto" class="w-full h-auto rounded-lg">
                     </div>
-                    <!-- Añade más imágenes aquí si las tienes -->
+                    <!-- Puedes duplicar gallery-item y cambiar la img src por más imágenes -->
+                    <div class="gallery-item">
+                        <img src="image3.webp" alt="Imagen adicional 1" class="w-full h-auto rounded-lg">
+                    </div>
+                     <div class="gallery-item">
+                        <img src="image4.webp" alt="Imagen adicional 2" class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="image5.webp" alt="Imagen adicional 3" class="w-full h-auto rounded-lg">
+                    </div>
                 </div>
             </section>
         </main>
 
-        <!-- Pie de página -->
-        <footer class="mt-16 text-center text-gray-500 text-sm border-t border-gray-700 pt-8">
-            <p>&copy; 2025 Perfil de Personaje Thomas Anotias. Creado para La Llamada de Cthulhu.</p>
-            <p class="mt-2">Advertencia: Los horrores de Arkham son más profundos de lo que la razón puede comprender.</p>
+        <!-- Pie de página con más tematismo -->
+        <footer class="mt-20 text-center border-t border-gray-800 pt-12 pb-8">
+            <p class="text-gray-600 text-base mb-2">"El cosmos es indiferente a nuestra existencia. O quizás, simplemente no le gustamos."</p>
+            <p class="text-gray-700 text-sm">&copy; 2025 Perfil de Personaje Thomas Anotias. Creado para La Llamada de Cthulhu.</p>
+            <p class="text-yellow-600 text-sm mt-4">Advertencia: Los horrores de Arkham y más allá, son más profundos de lo que la razón puede comprender. La cordura es efímera.</p>
         </footer>
     </div>
 
-    <!-- Script para animaciones de entrada. Idealmente iría en un archivo JS externo. -->
+    <!-- Script para animaciones de entrada basadas en scroll y estilo del menú nav -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Animación de entrada de secciones al hacer scroll
             const observerOptions = {
                 root: null, // viewport
                 rootMargin: '0px',
@@ -330,15 +459,51 @@
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        entry.target.classList.add('animate-fade-in-up');
+                        entry.target.classList.add('animate-reveal');
+                        entry.target.classList.add('animated'); /* Para el before de content-section */
                         observer.unobserve(entry.target); // Dejar de observar una vez que anima
                     }
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.content-section, .gallery-item img').forEach(section => {
-                observer.observe(section);
+            document.querySelectorAll('.animate-on-scroll').forEach(element => {
+                observer.observe(element);
             });
+
+            // Añadir/quitar clase 'active' al nav-link según la sección visible
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+
+            const highlightNavLink = () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - document.querySelector('header').offsetHeight; // Ajustar por altura del header fijo
+                    const sectionHeight = section.clientHeight;
+                    if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.href.includes(current)) {
+                        link.classList.add('active');
+                    }
+                });
+            };
+
+            window.addEventListener('scroll', highlightNavLink);
+            highlightNavLink(); // Ejecutar al cargar para establecer la activa inicial
+
+            // Evitar animaciones iniciales en elementos que ya están en la vista al cargar
+            setTimeout(() => {
+                document.querySelectorAll('.animate-on-scroll:not(.animate-reveal)').forEach(el => {
+                    if (el.getBoundingClientRect().top < window.innerHeight) {
+                         el.classList.add('animate-reveal'); // Si ya están en vista, animarlos
+                         el.classList.add('animated');
+                    }
+                });
+            }, 100); // Pequeño delay para asegurar que el DOM está listo
         });
     </script>
 </body>
